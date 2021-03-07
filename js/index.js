@@ -100,4 +100,41 @@ window.addEventListener('load', function() {
         //手动调用点击事件
         arrow_r.click();
     }, 2000);
+
+})
+$(function() {
+    var flag = true;
+    var toolTop = $(".recom").offset().top;
+    toggleTool();
+
+    function toggleTool() {
+        if ($(document).scrollTop() >= toolTop) {
+            $(".fixedtool").fadeIn();
+        } else {
+            $(".fixedtool").fadeOut();
+        }
+    }
+    $(window).scroll(function() {
+        toggleTool();
+        if (flag) {
+            $(".floor .w").each(function(i, ele) {
+                if ($(document).scrollTop() >= $(ele).offset().top) {
+                    console.log(i);
+                    $(".fixedtool li").eq(i).addClass("current").siblings().removeClass();
+
+                }
+            })
+        }
+    })
+    $(".fixedtool li").click(function() {
+        flag = false;
+        var current = $(".floor .w").eq($(this).index()).offset().top;
+        //页面动画滚动效果
+        $("body,html").stop().animate({
+            scrollTop: current
+        }, function() { flag = true; })
+        $(this).addClass("current").siblings().removeClass();
+    })
+
+
 })
